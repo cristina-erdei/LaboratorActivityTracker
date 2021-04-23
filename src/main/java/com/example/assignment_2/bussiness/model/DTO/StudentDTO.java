@@ -1,20 +1,30 @@
 package com.example.assignment_2.bussiness.model.DTO;
 
-import javax.persistence.Entity;
+import com.example.assignment_2.data.model.StudentDB;
 
 public class StudentDTO extends UserDTO {
+    private boolean registered;
     private String fullName;
-    private String groupID;
+    private String groupId;
     private String hobby;
 
     public StudentDTO() {
     }
 
-    public StudentDTO(String email, String fullName, String groupID, String hobby) {
+    public StudentDTO(String email, boolean registered, String fullName, String groupID, String hobby) {
         super(email);
+        this.registered = registered;
         this.fullName = fullName;
-        this.groupID = groupID;
+        this.groupId = groupID;
         this.hobby = hobby;
+    }
+
+    public StudentDTO(StudentDB studentDB){
+        super(studentDB.getEmail());
+        this.registered = studentDB.isRegistered();
+        this.fullName = studentDB.getFullName();
+        this.groupId = studentDB.getGroupID();
+        this.hobby = studentDB.getHobby();
     }
 
     public String getFullName() {
@@ -25,12 +35,12 @@ public class StudentDTO extends UserDTO {
         this.fullName = fullName;
     }
 
-    public String getGroupID() {
-        return groupID;
+    public String getGroupId() {
+        return groupId;
     }
 
-    public void setGroupID(String groupID) {
-        this.groupID = groupID;
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
     }
 
     public String getHobby() {
@@ -39,5 +49,13 @@ public class StudentDTO extends UserDTO {
 
     public void setHobby(String hobby) {
         this.hobby = hobby;
+    }
+
+    public boolean isRegistered() {
+        return registered;
+    }
+
+    public void setRegistered(boolean registered) {
+        this.registered = registered;
     }
 }

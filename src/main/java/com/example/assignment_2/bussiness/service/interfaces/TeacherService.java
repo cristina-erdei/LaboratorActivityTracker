@@ -18,6 +18,8 @@ public interface TeacherService {
 
     TeacherDTO findById(Long id);
 
+    TeacherDTO findByEmail(String email);
+
     TeacherDTO create(TeacherCreateModel createModel);
 
     TeacherDTO update(Long id, TeacherCreateModel createModel);

@@ -46,6 +46,16 @@ public class TeacherServiceImplementation implements TeacherService {
     }
 
     @Override
+    public TeacherDTO findByEmail(String email) {
+        TeacherDB found = teacherRepository.findByEmail(email);
+        if (found == null) {
+            return null;
+        }
+
+        return new TeacherDTO(found);
+    }
+
+    @Override
     public TeacherDTO create(TeacherCreateModel createModel) {
         Base64.Encoder encoder = Base64.getEncoder();
         String encodedPassword = encoder.encodeToString(createModel.getPassword().getBytes(StandardCharsets.UTF_8));

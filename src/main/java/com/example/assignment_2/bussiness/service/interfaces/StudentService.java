@@ -12,7 +12,9 @@ public interface StudentService {
 
     StudentDTO findById(Long id);
 
-    StudentDTO findByToken(String token);
+    StudentDTO findByAuthenticationToken(String token);
+
+    StudentDTO findByEmail(String email);
 
     //return register token
     String create(StudentCreateModel createModel);
@@ -23,7 +25,9 @@ public interface StudentService {
 
     boolean updatePassword(Long id, String password);
 
-    void deleteById(Long id);
+    boolean updateRegistered(Long id, boolean registered);
+
+    StudentDTO deleteById(Long id);
 
 
 }

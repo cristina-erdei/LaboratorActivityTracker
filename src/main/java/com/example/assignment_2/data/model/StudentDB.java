@@ -8,16 +8,18 @@ public class StudentDB extends UserDB {
     private String fullName;
     private String groupID;
     private String hobby;
+    private String registrationToken;
 
     public StudentDB() {
     }
 
-    public StudentDB(String email, String password, boolean registered, String fullName, String groupID, String hobby) {
+    public StudentDB(String email, String password, boolean registered, String fullName, String groupID, String hobby, String registrationToken) {
         super(email, password);
         this.registered = registered;
         this.fullName = fullName;
         this.groupID = groupID;
         this.hobby = hobby;
+        this.registrationToken = registrationToken;
     }
 
     public boolean isRegistered() {
@@ -50,5 +52,13 @@ public class StudentDB extends UserDB {
 
     public void setHobby(String hobby) {
         this.hobby = hobby;
+    }
+
+    public String getRegistrationToken() {
+        return registrationToken;
+    }
+
+    public void setRegistrationToken(String registrationToken) {
+        this.registrationToken = registrationToken;
     }
 }
