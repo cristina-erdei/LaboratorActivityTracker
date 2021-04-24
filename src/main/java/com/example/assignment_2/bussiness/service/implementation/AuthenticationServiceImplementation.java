@@ -1,5 +1,7 @@
 package com.example.assignment_2.bussiness.service.implementation;
 
+import com.example.assignment_2.bussiness.model.base.Student;
+import com.example.assignment_2.bussiness.model.base.Teacher;
 import com.example.assignment_2.bussiness.model.login.LoginRequestModel;
 import com.example.assignment_2.bussiness.model.login.RegisterRequestModel;
 import com.example.assignment_2.bussiness.service.interfaces.AuthenticationService;
@@ -18,13 +20,6 @@ import java.util.Base64;
 @Service
 public class AuthenticationServiceImplementation implements AuthenticationService {
 
-
-    @Qualifier("teacherRepository")
-    @Autowired
-    private TeacherRepository teacherRepository;
-    @Qualifier("studentRepository")
-    @Autowired
-    private StudentRepository studentRepository;
     @Autowired
     private TeacherServiceImplementation teacherService;
     @Autowired
@@ -36,7 +31,7 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
         String authenticationToken = TokenGenerator.generateNewToken(64);
         Base64.Encoder encoder = Base64.getEncoder();
         String encodedPassword = encoder.encodeToString(loginRequestModel.getPassword().getBytes(StandardCharsets.UTF_8));
-        TeacherDB teacher = teacherRepository.findByEmail(loginRequestModel.getEmail());
+        Teacher teacher = teacherService.findByEmail(loginRequestModel.getEmail());
 
         if(teacher != null){
 
@@ -48,7 +43,7 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
             return authenticationToken;
         }
 
-        StudentDB student = studentRepository.findByEmail(loginRequestModel.getEmail());
+        Student student = studentService.findByEmail(loginRequestModel.getEmail());
         if(!student.isRegistered()){
             return null;
         }
@@ -68,7 +63,7 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
 
     @Override
     public boolean register(RegisterRequestModel registerRequestModel) {
-        StudentDB student = studentRepository.findByEmail(registerRequestModel.getEmail());
+        Student student = studentService.findByEmail(registerRequestModel.getEmail());
         if(student == null){
             return false;
         }
@@ -86,7 +81,7 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
 
     @Override
     public boolean logout(String token) {
-        StudentDB studentDB = studentRepository.findByAuthenticationToken(token);
+        Student studentDB = studentService.findByAuthenticationToken(token);
         if(studentDB == null){
             return false;
         }

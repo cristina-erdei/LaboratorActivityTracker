@@ -1,6 +1,7 @@
 package com.example.assignment_2.bussiness.service.interfaces;
 
 import com.example.assignment_2.bussiness.model.DTO.LaboratoryDTO;
+import com.example.assignment_2.bussiness.model.base.Laboratory;
 import com.example.assignment_2.bussiness.model.create.LaboratoryCreateModel;
 import org.springframework.stereotype.Service;
 
@@ -8,11 +9,11 @@ import java.util.List;
 
 @Service
 public interface LaboratoryService {
-    List<LaboratoryDTO> findAll();
+    List<Laboratory> findAll();
 
-    LaboratoryDTO findById(Long id);
+    Laboratory findById(Long id);
 
-    LaboratoryDTO create(LaboratoryCreateModel createModel);
+    Laboratory create(LaboratoryCreateModel createModel);
 
     void deleteById(Long id);
 

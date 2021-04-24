@@ -1,6 +1,6 @@
 package com.example.assignment_2.bussiness.service.implementation;
 
-import com.example.assignment_2.bussiness.model.DTO.StudentDTO;
+import com.example.assignment_2.bussiness.model.base.Student;
 import com.example.assignment_2.bussiness.model.create.StudentCreateModel;
 import com.example.assignment_2.bussiness.service.interfaces.StudentService;
 import com.example.assignment_2.data.model.StudentDB;
@@ -24,35 +24,35 @@ public class StudentServiceImplementation implements StudentService {
     private StudentRepository studentRepository;
 
     @Override
-    public List<StudentDTO> findAll() {
+    public List<Student> findAll() {
         List<StudentDB> students = studentRepository.findAll();
-        return students.stream().map(StudentDTO::new).collect(Collectors.toList());
+        return students.stream().map(Student::new).collect(Collectors.toList());
     }
 
     @Override
-    public StudentDTO findById(Long id) {
+    public Student findById(Long id) {
         Optional<StudentDB> student = studentRepository.findById(id);
-        return student.map(StudentDTO::new).orElse(null);
+        return student.map(Student::new).orElse(null);
     }
 
     @Override
-    public StudentDTO findByAuthenticationToken(String token) {
+    public Student findByAuthenticationToken(String token) {
         StudentDB found = studentRepository.findByAuthenticationToken(token);
         if (found == null) {
             return null;
         }
 
-        return new StudentDTO(found);
+        return new Student(found);
     }
 
     @Override
-    public StudentDTO findByEmail(String email) {
+    public Student findByEmail(String email) {
         StudentDB found = studentRepository.findByEmail(email);
         if (found == null) {
             return null;
         }
 
-        return new StudentDTO(found);
+        return new Student(found);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     @Override
-    public StudentDTO update(Long id, StudentCreateModel newValue) {
+    public Student update(Long id, StudentCreateModel newValue) {
         Optional<StudentDB> student = studentRepository.findById(id);
 
         if(student.isEmpty()){
@@ -95,7 +95,7 @@ public class StudentServiceImplementation implements StudentService {
 
         StudentDB updated = studentRepository.save(found);
 
-        return new StudentDTO(updated);
+        return new Student(updated);
     }
 
     @Override
@@ -147,7 +147,7 @@ public class StudentServiceImplementation implements StudentService {
     }
 
     @Override
-    public StudentDTO deleteById(Long id) {
+    public Student deleteById(Long id) {
         Optional<StudentDB> student = studentRepository.findById(id);
 
         if(student.isEmpty()){
@@ -158,6 +158,6 @@ public class StudentServiceImplementation implements StudentService {
 
         studentRepository.deleteById(id);
 
-        return new StudentDTO(found);
+        return new Student(found);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.assignment_2.bussiness.service.implementation;
 
 import com.example.assignment_2.bussiness.model.DTO.TeacherDTO;
+import com.example.assignment_2.bussiness.model.base.Teacher;
 import com.example.assignment_2.bussiness.model.create.TeacherCreateModel;
 import com.example.assignment_2.bussiness.service.interfaces.TeacherService;
 import com.example.assignment_2.data.model.TeacherDB;
@@ -24,48 +25,48 @@ public class TeacherServiceImplementation implements TeacherService {
     private TeacherRepository teacherRepository;
 
     @Override
-    public List<TeacherDTO> findAll() {
+    public List<Teacher> findAll() {
         List<TeacherDB> result = teacherRepository.findAll();
-        return result.stream().map(TeacherDTO::new).collect(Collectors.toList());
+        return result.stream().map(Teacher::new).collect(Collectors.toList());
     }
 
     @Override
-    public TeacherDTO findByToken(String token) {
+    public Teacher findByToken(String token) {
         TeacherDB found = teacherRepository.findByAuthenticationToken(token);
         if (found == null) {
             return null;
         }
 
-        return new TeacherDTO(found);
+        return new Teacher(found);
     }
 
     @Override
-    public TeacherDTO findById(Long id) {
+    public Teacher findById(Long id) {
         Optional<TeacherDB> teacher = teacherRepository.findById(id);
-        return teacher.map(TeacherDTO::new).orElse(null);
+        return teacher.map(Teacher::new).orElse(null);
     }
 
     @Override
-    public TeacherDTO findByEmail(String email) {
+    public Teacher findByEmail(String email) {
         TeacherDB found = teacherRepository.findByEmail(email);
         if (found == null) {
             return null;
         }
 
-        return new TeacherDTO(found);
+        return new Teacher(found);
     }
 
     @Override
-    public TeacherDTO create(TeacherCreateModel createModel) {
+    public Teacher create(TeacherCreateModel createModel) {
         Base64.Encoder encoder = Base64.getEncoder();
         String encodedPassword = encoder.encodeToString(createModel.getPassword().getBytes(StandardCharsets.UTF_8));
         TeacherDB teacherDB = new TeacherDB(createModel.getEmail(), encodedPassword);
         TeacherDB saved = teacherRepository.save(teacherDB);
-        return new TeacherDTO(saved);
+        return new Teacher(saved);
     }
 
     @Override
-    public TeacherDTO update(Long id, TeacherCreateModel createModel) {
+    public Teacher update(Long id, TeacherCreateModel createModel) {
         Optional<TeacherDB> teacher = teacherRepository.findById(id);
 
         if(teacher.isEmpty()){
@@ -84,7 +85,7 @@ public class TeacherServiceImplementation implements TeacherService {
 
         TeacherDB updated = teacherRepository.save(found);
 
-        return new TeacherDTO(updated);
+        return new Teacher(updated);
     }
 
     @Override
@@ -104,7 +105,7 @@ public class TeacherServiceImplementation implements TeacherService {
     }
 
     @Override
-    public TeacherDTO deleteById(Long id) {
+    public Teacher deleteById(Long id) {
         Optional<TeacherDB> teacher = teacherRepository.findById(id);
 
         if(teacher.isEmpty()){
@@ -115,6 +116,6 @@ public class TeacherServiceImplementation implements TeacherService {
 
         teacherRepository.deleteById(id);
 
-        return new TeacherDTO(found);
+        return new Teacher(found);
     }
 }
