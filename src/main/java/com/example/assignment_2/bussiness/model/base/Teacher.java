@@ -8,11 +8,11 @@ public class Teacher extends User {
     public Teacher() {
     }
 
-    public Teacher(String email, String password) {
-        super(email, password);
+    public Teacher(Long id, String email, String password) {
+        super(id, email, password);
     }
 
     public Teacher(TeacherDB teacherDB){
-        super(teacherDB.getEmail(), teacherDB.getPassword());
+        super(teacherDB.getId(), teacherDB.getEmail(), teacherDB.getPassword());
     }
 }

@@ -12,8 +12,8 @@ public class Student extends User {
     public Student() {
     }
 
-    public Student(String email, String password, boolean registered, String fullName, String groupID, String hobby, String registrationToken) {
-        super(email, password);
+    public Student(Long id, String email, String password, boolean registered, String fullName, String groupID, String hobby, String registrationToken) {
+        super(id, email, password);
         this.registered = registered;
         this.fullName = fullName;
         this.groupID = groupID;
@@ -22,11 +22,12 @@ public class Student extends User {
     }
 
     public Student(StudentDB studentDB){
-        super(studentDB.getEmail(), studentDB.getPassword());
+        super(studentDB.getId(), studentDB.getEmail(), studentDB.getPassword());
         this.registered = studentDB.isRegistered();
         this.fullName = studentDB.getFullName();
         this.groupID = studentDB.getGroupID();
         this.hobby = studentDB.getHobby();
+        this.registrationToken = studentDB.getRegistrationToken();
     }
 
     public boolean isRegistered() {
@@ -67,5 +68,18 @@ public class Student extends User {
 
     public void setRegistrationToken(String registrationToken) {
         this.registrationToken = registrationToken;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "registered=" + registered +
+                ", fullName='" + fullName + '\'' +
+                ", groupID='" + groupID + '\'' +
+                ", hobby='" + hobby + '\'' +
+                ", registrationToken='" + registrationToken + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

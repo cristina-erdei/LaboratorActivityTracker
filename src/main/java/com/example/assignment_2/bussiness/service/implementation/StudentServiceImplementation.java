@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -78,7 +80,9 @@ public class StudentServiceImplementation implements StudentService {
         }
 
         if(newValue.getPassword() != null){
-            found.setPassword(newValue.getPassword());
+            Base64.Encoder encoder = Base64.getEncoder();
+            String encodedPassword = encoder.encodeToString(newValue.getPassword().getBytes(StandardCharsets.UTF_8));
+            found.setPassword(encodedPassword);
         }
 
         if(newValue.getFullName() != null){
@@ -122,8 +126,12 @@ public class StudentServiceImplementation implements StudentService {
             return false;
         }
 
+        Base64.Encoder encoder = Base64.getEncoder();
+        String encodedPassword = encoder.encodeToString(password.getBytes(StandardCharsets.UTF_8));
+
         StudentDB found = student.get();
-        found.setPassword(password);
+        found.setPassword(encodedPassword);
+
 
         studentRepository.save(found);
 

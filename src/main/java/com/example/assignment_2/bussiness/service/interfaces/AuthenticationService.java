@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface AuthenticationService {
     String login(LoginRequestModel loginRequestModel);
+
     boolean register(RegisterRequestModel registerRequestModel);
+
     boolean logout(String token);
 
 }

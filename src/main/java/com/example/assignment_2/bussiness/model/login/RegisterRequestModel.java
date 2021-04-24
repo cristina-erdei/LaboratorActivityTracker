@@ -37,4 +37,13 @@ public class RegisterRequestModel {
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterRequestModel{" +
+                "registerToken='" + registerToken + '\'' +
+                ", email='" + email + '\'' +
+                ", newPassword='" + newPassword + '\'' +
+                '}';
+    }
 }

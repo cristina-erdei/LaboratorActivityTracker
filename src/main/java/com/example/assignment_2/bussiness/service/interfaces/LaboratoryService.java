@@ -1,6 +1,7 @@
 package com.example.assignment_2.bussiness.service.interfaces;
 
 import com.example.assignment_2.bussiness.model.DTO.LaboratoryDTO;
+import com.example.assignment_2.bussiness.model.base.Attendance;
 import com.example.assignment_2.bussiness.model.base.Laboratory;
 import com.example.assignment_2.bussiness.model.create.LaboratoryCreateModel;
 import org.springframework.stereotype.Service;
@@ -17,5 +18,5 @@ public interface LaboratoryService {
 
     void deleteById(Long id);
 
-
+    List<Attendance> getAttendance(Long id);
 }

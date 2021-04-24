@@ -15,7 +15,7 @@ import java.util.List;
 public interface TeacherService {
     List<Teacher> findAll();
 
-    Teacher findByToken(String token);
+    Teacher findByAuthenticationToken(String authenticationToken);
 
     Teacher findById(Long id);
 

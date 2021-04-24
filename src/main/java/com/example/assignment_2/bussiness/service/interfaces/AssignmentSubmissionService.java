@@ -13,9 +13,11 @@ public interface AssignmentSubmissionService {
 
     AssignmentSubmission findById(Long id);
 
+    List<AssignmentSubmission> findAllByAssignment(Long assignmentId);
+
     AssignmentSubmission create(AssignmentSubmissionCreateModel createModel);
 
     void deleteById(Long id);
 
-
+    void grade(int grade);
 }

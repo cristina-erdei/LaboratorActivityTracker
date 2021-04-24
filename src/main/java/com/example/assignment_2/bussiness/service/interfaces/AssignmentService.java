@@ -13,9 +13,10 @@ public interface AssignmentService {
 
     Assignment findById(Long id);
 
+    List<Assignment> findAllByLaboratory(Long id);
+
     Assignment create(AssignmentCreateModel createModel);
 
     void deleteById(Long id);
-
 
 }

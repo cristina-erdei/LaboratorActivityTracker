@@ -31,8 +31,8 @@ public class TeacherServiceImplementation implements TeacherService {
     }
 
     @Override
-    public Teacher findByToken(String token) {
-        TeacherDB found = teacherRepository.findByAuthenticationToken(token);
+    public Teacher findByAuthenticationToken(String authenticationToken) {
+        TeacherDB found = teacherRepository.findByAuthenticationToken(authenticationToken);
         if (found == null) {
             return null;
         }
@@ -80,7 +80,9 @@ public class TeacherServiceImplementation implements TeacherService {
         }
 
         if(createModel.getPassword() != null){
-            found.setPassword(createModel.getPassword());
+            Base64.Encoder encoder = Base64.getEncoder();
+            String encodedPassword = encoder.encodeToString(createModel.getPassword().getBytes(StandardCharsets.UTF_8));
+            found.setPassword(encodedPassword);
         }
 
         TeacherDB updated = teacherRepository.save(found);

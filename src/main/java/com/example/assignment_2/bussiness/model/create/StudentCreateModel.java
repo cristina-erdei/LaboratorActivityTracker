@@ -40,4 +40,15 @@ public class StudentCreateModel extends UserCreateModel {
     public void setHobby(String hobby) {
         this.hobby = hobby;
     }
+
+    @Override
+    public String toString() {
+        return "StudentCreateModel{" +
+                "fullName='" + fullName + '\'' +
+                ", groupID='" + groupID + '\'' +
+                ", hobby='" + hobby + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

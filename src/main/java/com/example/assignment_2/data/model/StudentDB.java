@@ -61,4 +61,18 @@ public class StudentDB extends UserDB {
     public void setRegistrationToken(String registrationToken) {
         this.registrationToken = registrationToken;
     }
+
+    @Override
+    public String toString() {
+        return "StudentDB{" +
+                "registered=" + registered +
+                ", fullName='" + fullName + '\'' +
+                ", groupID='" + groupID + '\'' +
+                ", hobby='" + hobby + '\'' +
+                ", registrationToken='" + registrationToken + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", authenticationToken='" + authenticationToken + '\'' +
+                '}';
+    }
 }

@@ -13,9 +13,10 @@ public interface AttendanceService {
 
     Attendance findById(Long id);
 
+    List<Attendance> findAllByLaboratory(Long id);
+
     Attendance create(AttendanceCreateModel createModel);
 
     void deleteById(Long id);
-
 
 }
