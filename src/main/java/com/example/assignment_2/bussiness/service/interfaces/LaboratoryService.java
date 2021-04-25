@@ -1,6 +1,5 @@
 package com.example.assignment_2.bussiness.service.interfaces;
 
-import com.example.assignment_2.bussiness.model.DTO.LaboratoryDTO;
 import com.example.assignment_2.bussiness.model.base.Attendance;
 import com.example.assignment_2.bussiness.model.base.Laboratory;
 import com.example.assignment_2.bussiness.model.create.LaboratoryCreateModel;
@@ -16,7 +15,9 @@ public interface LaboratoryService {
 
     Laboratory create(LaboratoryCreateModel createModel);
 
-    void deleteById(Long id);
+    Laboratory deleteById(Long id);
+
+    Laboratory update(Long id, LaboratoryCreateModel newValue);
 
     List<Attendance> getAttendance(Long id);
 }

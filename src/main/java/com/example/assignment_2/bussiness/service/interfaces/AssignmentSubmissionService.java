@@ -1,8 +1,8 @@
 package com.example.assignment_2.bussiness.service.interfaces;
 
-import com.example.assignment_2.bussiness.model.DTO.AssignmentSubmissionDTO;
 import com.example.assignment_2.bussiness.model.base.AssignmentSubmission;
 import com.example.assignment_2.bussiness.model.create.AssignmentSubmissionCreateModel;
+import com.example.assignment_2.bussiness.model.create.Grade;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +13,13 @@ public interface AssignmentSubmissionService {
 
     AssignmentSubmission findById(Long id);
 
-    List<AssignmentSubmission> findAllByAssignment(Long assignmentId);
+    List<AssignmentSubmission> findAllByAssignment_Id(Long assignment_Id);
 
     AssignmentSubmission create(AssignmentSubmissionCreateModel createModel);
 
-    void deleteById(Long id);
+    AssignmentSubmission update(Long id, AssignmentSubmissionCreateModel newValue);
 
-    void grade(int grade);
+    AssignmentSubmission deleteById(Long id);
+
+    AssignmentSubmission grade(Long id, Grade grade);
 }

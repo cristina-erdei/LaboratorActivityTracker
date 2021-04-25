@@ -1,5 +1,7 @@
 package com.example.assignment_2.bussiness.model.base;
 
+import com.example.assignment_2.data.model.AssignmentSubmissionDB;
+
 public class AssignmentSubmission {
     private Long id;
 
@@ -19,6 +21,15 @@ public class AssignmentSubmission {
         this.link = link;
         this.comment = comment;
         this.grade = grade;
+    }
+
+    public AssignmentSubmission(AssignmentSubmissionDB assignmentSubmissionDB){
+        this.id = assignmentSubmissionDB.getId();
+        this.assignment = new Assignment(assignmentSubmissionDB.getAssignment());
+        this.student = new Student(assignmentSubmissionDB.getStudent());
+        this.link = assignmentSubmissionDB.getLink();
+        this.comment = assignmentSubmissionDB.getComment();
+        this.grade = assignmentSubmissionDB.getGrade();
     }
 
     public void setId(Long id) {

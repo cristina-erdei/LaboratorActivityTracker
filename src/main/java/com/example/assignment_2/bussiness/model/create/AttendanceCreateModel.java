@@ -13,11 +13,11 @@ public class AttendanceCreateModel {
     }
 
 
-    public Long getStudent() {
+    public Long getStudentId() {
         return studentId;
     }
 
-    public void setStudent(Long student) {
+    public void setStudentId(Long student) {
         this.studentId = student;
     }
 

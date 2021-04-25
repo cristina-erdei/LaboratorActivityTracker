@@ -1,5 +1,7 @@
 package com.example.assignment_2.bussiness.model.DTO;
 
+import com.example.assignment_2.bussiness.model.base.Laboratory;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -23,6 +25,15 @@ public class LaboratoryDTO {
         this.title = title;
         this.topic = topic;
         this.description = description;
+    }
+
+    public LaboratoryDTO(Laboratory laboratory){
+        this.id = laboratory.getId();
+        this.number = laboratory.getNumber();
+        this.date = laboratory.getDate();
+        this.title = laboratory.getTitle();
+        this.topic = laboratory.getTopic();
+        this.description = laboratory.getDescription();
     }
 
     public void setId(Long id) {

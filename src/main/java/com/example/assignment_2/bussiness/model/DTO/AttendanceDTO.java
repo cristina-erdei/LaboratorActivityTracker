@@ -1,5 +1,7 @@
 package com.example.assignment_2.bussiness.model.DTO;
 
+import com.example.assignment_2.bussiness.model.base.Attendance;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,6 +23,12 @@ public class AttendanceDTO {
     public AttendanceDTO(StudentDTO student, LaboratoryDTO laboratory) {
         this.student = student;
         this.laboratory = laboratory;
+    }
+
+    public AttendanceDTO(Attendance attendance){
+        this.id = attendance.getId();
+        this.student = new StudentDTO(attendance.getStudent());
+        this.laboratory = new LaboratoryDTO(attendance.getLaboratory());
     }
 
     public Long getId() {

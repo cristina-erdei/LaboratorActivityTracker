@@ -1,5 +1,7 @@
 package com.example.assignment_2.bussiness.model.DTO;
 
+import com.example.assignment_2.bussiness.model.base.AssignmentSubmission;
+
 public class AssignmentSubmissionDTO {
     private Long id;
 
@@ -19,6 +21,15 @@ public class AssignmentSubmissionDTO {
         this.link = link;
         this.comment = comment;
         this.grade = grade;
+    }
+
+    public AssignmentSubmissionDTO(AssignmentSubmission submission){
+        this.id = submission.getId();
+        this.assignment = new AssignmentDTO(submission.getAssignment());
+        this.student = new StudentDTO(submission.getStudent());
+        this.link = submission.getLink();
+        this.comment = submission.getComment();
+        this.grade = submission.getGrade();
     }
 
     public void setId(Long id) {

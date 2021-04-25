@@ -1,5 +1,7 @@
 package com.example.assignment_2.bussiness.model.base;
 
+import com.example.assignment_2.data.model.AttendanceDB;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,6 +23,12 @@ public class Attendance {
     public Attendance(Student student, Laboratory laboratory) {
         this.student = student;
         this.laboratory = laboratory;
+    }
+
+    public Attendance(AttendanceDB attendanceDB){
+        this.id = attendanceDB.getId();
+        this.student = new Student(attendanceDB.getStudent());
+        this.laboratory = new Laboratory(attendanceDB.getLaboratory());
     }
 
     public Long getId() {

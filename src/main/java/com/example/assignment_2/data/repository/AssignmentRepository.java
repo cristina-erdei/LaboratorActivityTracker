@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface AssignmentRepository extends JpaRepository<AssignmentDB, Long> {
-    List<AssignmentDB> findAllByLaboratory(LaboratoryDB laboratory);
+    List<AssignmentDB> findAllByLaboratory_Id(Long laboratory_id);
 }

@@ -1,5 +1,7 @@
 package com.example.assignment_2.bussiness.model.base;
 
+import com.example.assignment_2.data.model.LaboratoryDB;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,6 +26,16 @@ public class Laboratory {
         this.topic = topic;
         this.description = description;
     }
+
+    public Laboratory(LaboratoryDB laboratoryDB){
+        this.id = laboratoryDB.getId();
+        this.number = laboratoryDB.getNumber();
+        this.date = laboratoryDB.getDate();
+        this.title = laboratoryDB.getTitle();
+        this.topic = laboratoryDB.getTopic();
+        this.description = laboratoryDB.getDescription();
+    }
+
 
     public void setId(Long id) {
         this.id = id;
