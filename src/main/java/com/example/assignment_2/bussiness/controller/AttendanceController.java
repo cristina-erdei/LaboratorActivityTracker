@@ -4,8 +4,10 @@ import com.example.assignment_2.bussiness.model.DTO.AttendanceDTO;
 import com.example.assignment_2.bussiness.model.DTO.LaboratoryDTO;
 import com.example.assignment_2.bussiness.model.base.Attendance;
 import com.example.assignment_2.bussiness.model.base.Laboratory;
+import com.example.assignment_2.bussiness.model.base.Teacher;
 import com.example.assignment_2.bussiness.model.create.AttendanceCreateModel;
 import com.example.assignment_2.bussiness.service.implementation.AttendanceServiceImplementation;
+import com.example.assignment_2.bussiness.service.implementation.TeacherServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class AttendanceController {
 
     @Autowired
     private AttendanceServiceImplementation attendanceService;
+    @Autowired
+    private TeacherServiceImplementation teacherService;
+
 
     @GetMapping("/getAll")
     public ResponseEntity<List<AttendanceDTO>> findAll() {
@@ -55,14 +60,25 @@ public class AttendanceController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<AttendanceDTO> create(@RequestBody AttendanceCreateModel createModel) {
+    public ResponseEntity<AttendanceDTO> create(@RequestBody AttendanceCreateModel createModel, @RequestHeader("Token") String authenticationToken) {
+        Teacher teacher = teacherService.findByAuthenticationToken(authenticationToken);
+
+        if(teacher == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
         Attendance saved = attendanceService.create(createModel);
 
         return new ResponseEntity<>(new AttendanceDTO(saved), HttpStatus.OK);
     }
 
     @PostMapping("/updateById/{id}")
-    public ResponseEntity<AttendanceDTO> update(@PathVariable Long id, @RequestBody AttendanceCreateModel newValue) {
+    public ResponseEntity<AttendanceDTO> update(@PathVariable Long id, @RequestBody AttendanceCreateModel newValue, @RequestHeader("Token") String authenticationToken) {
+        Teacher teacher = teacherService.findByAuthenticationToken(authenticationToken);
+
+        if(teacher == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
         Attendance updated = attendanceService.update(id, newValue);
 
         if(updated == null){
@@ -73,7 +89,12 @@ public class AttendanceController {
     }
 
     @DeleteMapping("/deleteById/{id}")
-    public ResponseEntity<AttendanceDTO> deleteById(@PathVariable Long id) {
+    public ResponseEntity<AttendanceDTO> deleteById(@PathVariable Long id, @RequestHeader("Token") String authenticationToken) {
+        Teacher teacher = teacherService.findByAuthenticationToken(authenticationToken);
+
+        if(teacher == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
         Attendance deleted = attendanceService.deleteById(id);
 
         if(deleted == null){

@@ -11,15 +11,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class StartupRunner implements CommandLineRunner {
 
-
     @Autowired
     private TeacherServiceImplementation teacherService;
 
     @Override
     public void run(String... args) throws Exception {
-        Teacher teacher = teacherService.findByEmail("admin@admin.com");
+        Teacher teacher = teacherService.findByEmail(AppConstants.defaultTeacherEmail);
         if(teacher == null){
-            TeacherCreateModel defaultTeacher = new TeacherCreateModel("admin@admin.com", "admin");
+            TeacherCreateModel defaultTeacher = new TeacherCreateModel(AppConstants.defaultTeacherEmail, AppConstants.defaultTeacherPassword);
             teacherService.create(defaultTeacher);
         }
     }

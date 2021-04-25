@@ -11,6 +11,7 @@ import com.example.assignment_2.data.model.StudentDB;
 import com.example.assignment_2.data.repository.AssignmentRepository;
 import com.example.assignment_2.data.repository.AssignmentSubmissionRepository;
 import com.example.assignment_2.data.repository.StudentRepository;
+import com.example.assignment_2.helper.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -68,13 +69,12 @@ public class AssignmentSubmissionServiceImplementation implements AssignmentSubm
             return null;
         }
 
-        //-1 means no grade
         AssignmentSubmissionDB submissionDB = new AssignmentSubmissionDB(
                 assignmentDB.get(),
                 studentDB.get(),
                 createModel.getLink(),
                 createModel.getComment(),
-                -1
+                AppConstants.notGradedValue
                 );
 
         AssignmentSubmissionDB saved = assignmentSubmissionRepository.save(submissionDB);
@@ -138,6 +138,10 @@ public class AssignmentSubmissionServiceImplementation implements AssignmentSubm
 
     @Override
     public AssignmentSubmission grade(Long id, Grade grade) {
+        if(grade.getGrade() < AppConstants.minGradeValue || grade.getGrade() > AppConstants.maxGradeValue){
+            return null;
+        }
+
         Optional<AssignmentSubmissionDB> submissionDB = assignmentSubmissionRepository.findById(id);
 
         if (submissionDB.isEmpty()) {

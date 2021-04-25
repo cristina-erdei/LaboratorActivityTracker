@@ -2,9 +2,13 @@ package com.example.assignment_2.bussiness.controller;
 
 import com.example.assignment_2.bussiness.model.DTO.AssignmentSubmissionDTO;
 import com.example.assignment_2.bussiness.model.base.AssignmentSubmission;
+import com.example.assignment_2.bussiness.model.base.Student;
+import com.example.assignment_2.bussiness.model.base.Teacher;
 import com.example.assignment_2.bussiness.model.create.AssignmentSubmissionCreateModel;
 import com.example.assignment_2.bussiness.model.create.Grade;
 import com.example.assignment_2.bussiness.service.implementation.AssignmentSubmissionServiceImplementation;
+import com.example.assignment_2.bussiness.service.implementation.StudentServiceImplementation;
+import com.example.assignment_2.bussiness.service.implementation.TeacherServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +24,11 @@ public class AssignmentSubmissionController {
 
     @Autowired
     private AssignmentSubmissionServiceImplementation assignmentSubmissionService;
+    @Autowired
+    private TeacherServiceImplementation teacherService;
+    @Autowired
+    private StudentServiceImplementation studentService;
+
 
     @GetMapping("/getAll")
     public ResponseEntity<List<AssignmentSubmissionDTO>> findAll() {
@@ -55,7 +64,13 @@ public class AssignmentSubmissionController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<AssignmentSubmissionDTO> create(@RequestBody AssignmentSubmissionCreateModel createModel) {
+    public ResponseEntity<AssignmentSubmissionDTO> create(@RequestBody AssignmentSubmissionCreateModel createModel, @RequestHeader("Token") String authenticationToken) {
+        Student student = studentService.findByAuthenticationToken(authenticationToken);
+
+        if(student == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
         AssignmentSubmission saved = assignmentSubmissionService.create(createModel);
 
         return new ResponseEntity<>(new AssignmentSubmissionDTO(saved), HttpStatus.OK);
@@ -87,7 +102,13 @@ public class AssignmentSubmissionController {
     }
 
     @PostMapping("/grade/{id}")
-    public ResponseEntity<AssignmentSubmissionDTO> grade(@PathVariable Long id, @RequestBody Grade grade) {
+    public ResponseEntity<AssignmentSubmissionDTO> grade(@PathVariable Long id, @RequestBody Grade grade, @RequestHeader("Token") String authenticationToken) {
+        Teacher teacher = teacherService.findByAuthenticationToken(authenticationToken);
+
+        if(teacher == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
         AssignmentSubmission graded = assignmentSubmissionService.grade(id, grade);
         if(graded == null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

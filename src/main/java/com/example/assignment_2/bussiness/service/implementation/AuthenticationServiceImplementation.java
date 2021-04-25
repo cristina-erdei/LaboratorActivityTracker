@@ -5,6 +5,7 @@ import com.example.assignment_2.bussiness.model.base.Teacher;
 import com.example.assignment_2.bussiness.model.login.LoginRequestModel;
 import com.example.assignment_2.bussiness.model.login.RegisterRequestModel;
 import com.example.assignment_2.bussiness.service.interfaces.AuthenticationService;
+import com.example.assignment_2.helper.AppConstants;
 import com.example.assignment_2.helper.TokenGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
 
     @Override
     public String login(LoginRequestModel loginRequestModel) {
-        String authenticationToken = TokenGenerator.generateNewToken(64);
+        String authenticationToken = TokenGenerator.generateNewToken(AppConstants.authenticationTokenLength);
         Base64.Encoder encoder = Base64.getEncoder();
         String encodedPassword = encoder.encodeToString(loginRequestModel.getPassword().getBytes(StandardCharsets.UTF_8));
         Teacher teacher = teacherService.findByEmail(loginRequestModel.getEmail());

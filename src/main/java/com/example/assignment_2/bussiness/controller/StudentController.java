@@ -7,6 +7,7 @@ import com.example.assignment_2.bussiness.model.base.Student;
 import com.example.assignment_2.bussiness.model.base.Teacher;
 import com.example.assignment_2.bussiness.model.create.StudentCreateModel;
 import com.example.assignment_2.bussiness.service.implementation.StudentServiceImplementation;
+import com.example.assignment_2.bussiness.service.implementation.TeacherServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,9 @@ public class StudentController {
 
     @Autowired
     private StudentServiceImplementation studentService;
+    @Autowired
+    private TeacherServiceImplementation teacherService;
+
 
     @GetMapping("/getAll")
     public ResponseEntity<List<StudentDTO>> findAll(){
@@ -64,7 +68,13 @@ public class StudentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> create(@RequestBody StudentCreateModel createModel){
+    public ResponseEntity<String> create(@RequestBody StudentCreateModel createModel, @RequestHeader("Token") String authenticationToken){
+        Teacher teacher = teacherService.findByAuthenticationToken(authenticationToken);
+
+        if(teacher == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
         String registrationToken = studentService.create(createModel);
         if(registrationToken == null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -74,7 +84,13 @@ public class StudentController {
     }
 
     @PostMapping("/updateById/{id}")
-    public ResponseEntity<StudentDTO> update(@PathVariable Long id, @RequestBody StudentCreateModel newValue){
+    public ResponseEntity<StudentDTO> update(@PathVariable Long id, @RequestBody StudentCreateModel newValue, @RequestHeader("Token") String authenticationToken){
+        Teacher teacher = teacherService.findByAuthenticationToken(authenticationToken);
+
+        if(teacher == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
         Student updated = studentService.update(id, newValue);
 
         if(updated == null){
@@ -116,7 +132,13 @@ public class StudentController {
     }
 
     @DeleteMapping("/deleteById/{id}")
-    public ResponseEntity<StudentDTO> deleteById(@PathVariable Long id){
+    public ResponseEntity<StudentDTO> deleteById(@PathVariable Long id, @RequestHeader("Token") String authenticationToken){
+        Teacher teacher = teacherService.findByAuthenticationToken(authenticationToken);
+
+        if(teacher == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
         Student deleted = studentService.deleteById(id);
 
         if(deleted == null){

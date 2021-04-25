@@ -4,8 +4,10 @@ import com.example.assignment_2.bussiness.model.DTO.AssignmentDTO;
 import com.example.assignment_2.bussiness.model.DTO.AttendanceDTO;
 import com.example.assignment_2.bussiness.model.base.Assignment;
 import com.example.assignment_2.bussiness.model.base.Attendance;
+import com.example.assignment_2.bussiness.model.base.Teacher;
 import com.example.assignment_2.bussiness.model.create.AssignmentCreateModel;
 import com.example.assignment_2.bussiness.service.implementation.AssignmentServiceImplementation;
+import com.example.assignment_2.bussiness.service.implementation.TeacherServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,9 @@ public class AssignmentController {
 
     @Autowired
     private AssignmentServiceImplementation assignmentService;
+    @Autowired
+    private TeacherServiceImplementation teacherService;
+
 
     @GetMapping("/getAll")
     public ResponseEntity<List<AssignmentDTO>> findAll() {
@@ -56,7 +61,12 @@ public class AssignmentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<AssignmentDTO> create(@RequestBody AssignmentCreateModel createModel) {
+    public ResponseEntity<AssignmentDTO> create(@RequestBody AssignmentCreateModel createModel, @RequestHeader("Token") String authenticationToken) {
+        Teacher teacher = teacherService.findByAuthenticationToken(authenticationToken);
+
+        if(teacher == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
         Assignment saved = assignmentService.create(createModel);
 
         return new ResponseEntity<>(new AssignmentDTO(saved), HttpStatus.OK);
@@ -64,7 +74,13 @@ public class AssignmentController {
     }
 
     @PostMapping("/updateById/{id}")
-    public ResponseEntity<AssignmentDTO> update(@PathVariable Long id, @RequestBody AssignmentCreateModel newValue) {
+    public ResponseEntity<AssignmentDTO> update(@PathVariable Long id, @RequestBody AssignmentCreateModel newValue, @RequestHeader("Token") String authenticationToken) {
+        Teacher teacher = teacherService.findByAuthenticationToken(authenticationToken);
+
+        if(teacher == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
         Assignment updated = assignmentService.update(id, newValue);
 
         if(updated == null){
@@ -76,7 +92,13 @@ public class AssignmentController {
     }
 
     @DeleteMapping("/deleteById/{id}")
-    public ResponseEntity<AssignmentDTO> deleteById(@PathVariable Long id) {
+    public ResponseEntity<AssignmentDTO> deleteById(@PathVariable Long id, @RequestHeader("Token") String authenticationToken) {
+        Teacher teacher = teacherService.findByAuthenticationToken(authenticationToken);
+
+        if(teacher == null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+
         Assignment deleted = assignmentService.deleteById(id);
 
         if(deleted == null){
