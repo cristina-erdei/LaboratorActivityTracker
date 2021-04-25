@@ -26,7 +26,7 @@ public class AssignmentDTO {
         this.description = description;
     }
 
-    public AssignmentDTO(Assignment assignment){
+    public AssignmentDTO(Assignment assignment) {
         this.id = assignment.getId();
         this.laboratory = new LaboratoryDTO(assignment.getLaboratory());
         this.name = assignment.getName();
