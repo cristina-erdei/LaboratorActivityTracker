@@ -8,8 +8,7 @@ import com.example.assignment_2.bussiness.service.implementation.AssignmentSubmi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +21,7 @@ public class AssignmentSubmissionController {
     @Autowired
     private AssignmentSubmissionServiceImplementation assignmentSubmissionService;
 
+    @GetMapping("/getAll")
     public ResponseEntity<List<AssignmentSubmissionDTO>> findAll() {
         List<AssignmentSubmission> assignmentSubmissions = assignmentSubmissionService.findAll();
 
@@ -33,7 +33,8 @@ public class AssignmentSubmissionController {
 
     }
 
-    public ResponseEntity<AssignmentSubmissionDTO> findById(Long id) {
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<AssignmentSubmissionDTO> findById(@PathVariable Long id) {
         AssignmentSubmission found = assignmentSubmissionService.findById(id);
         if(found == null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -43,7 +44,8 @@ public class AssignmentSubmissionController {
 
     }
 
-    public ResponseEntity<List<AssignmentSubmissionDTO>> findAllByAssignment_Id(Long assignment_Id) {
+    @GetMapping("/getByAssignmentId/{assignment_Id}")
+    public ResponseEntity<List<AssignmentSubmissionDTO>> findAllByAssignment_Id(@PathVariable Long assignment_Id) {
         List<AssignmentSubmission> assignmentSubmissions = assignmentSubmissionService.findAllByAssignment_Id(assignment_Id);
         if (assignmentSubmissions == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -52,14 +54,16 @@ public class AssignmentSubmissionController {
         return new ResponseEntity<>(assignmentSubmissions.stream().map(AssignmentSubmissionDTO::new).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    public ResponseEntity<AssignmentSubmissionDTO> create(AssignmentSubmissionCreateModel createModel) {
+    @PostMapping("/create")
+    public ResponseEntity<AssignmentSubmissionDTO> create(@RequestBody AssignmentSubmissionCreateModel createModel) {
         AssignmentSubmission saved = assignmentSubmissionService.create(createModel);
 
         return new ResponseEntity<>(new AssignmentSubmissionDTO(saved), HttpStatus.OK);
 
     }
 
-    public ResponseEntity<AssignmentSubmissionDTO> update(Long id, AssignmentSubmissionCreateModel newValue) {
+    @PostMapping("/updateById/{id}")
+    public ResponseEntity<AssignmentSubmissionDTO> update(@PathVariable Long id, @RequestBody AssignmentSubmissionCreateModel newValue) {
         AssignmentSubmission updated = assignmentSubmissionService.update(id, newValue);
 
         if(updated == null){
@@ -70,7 +74,8 @@ public class AssignmentSubmissionController {
 
     }
 
-    public ResponseEntity<AssignmentSubmissionDTO> deleteById(Long id) {
+    @DeleteMapping("/deleteById/{id}")
+    public ResponseEntity<AssignmentSubmissionDTO> deleteById(@PathVariable Long id) {
         AssignmentSubmission deleted = assignmentSubmissionService.deleteById(id);
 
         if(deleted == null){
@@ -81,7 +86,8 @@ public class AssignmentSubmissionController {
 
     }
 
-    public ResponseEntity<AssignmentSubmissionDTO> grade(Long id, Grade grade) {
+    @PostMapping("/grade/{id}")
+    public ResponseEntity<AssignmentSubmissionDTO> grade(@PathVariable Long id, @RequestBody Grade grade) {
         AssignmentSubmission graded = assignmentSubmissionService.grade(id, grade);
         if(graded == null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

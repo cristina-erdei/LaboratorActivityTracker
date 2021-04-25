@@ -11,8 +11,7 @@ import com.example.assignment_2.bussiness.service.implementation.LaboratoryServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +23,7 @@ public class LaboratoryController {
     @Autowired
     private LaboratoryServiceImplementation laboratoryService;
 
-
+    @GetMapping("/getAll")
     public ResponseEntity<List<LaboratoryDTO>> findAll() {
         List<Laboratory> laboratories = laboratoryService.findAll();
 
@@ -35,7 +34,8 @@ public class LaboratoryController {
         return new ResponseEntity<>(laboratories.stream().map(LaboratoryDTO::new).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    public ResponseEntity<LaboratoryDTO> findById(Long id) {
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<LaboratoryDTO> findById(@PathVariable Long id) {
         Laboratory found = laboratoryService.findById(id);
         if(found == null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -44,13 +44,15 @@ public class LaboratoryController {
         return new ResponseEntity<>(new LaboratoryDTO(found), HttpStatus.OK);
     }
 
-    public ResponseEntity<LaboratoryDTO> create(LaboratoryCreateModel createModel) {
+    @PostMapping("/create")
+    public ResponseEntity<LaboratoryDTO> create(@RequestBody LaboratoryCreateModel createModel) {
         Laboratory saved = laboratoryService.create(createModel);
 
         return new ResponseEntity<>(new LaboratoryDTO(saved), HttpStatus.OK);
     }
 
-    public ResponseEntity<LaboratoryDTO> deleteById(Long id) {
+    @DeleteMapping("/deleteById/{id}")
+    public ResponseEntity<LaboratoryDTO> deleteById(@PathVariable Long id) {
         Laboratory deleted = laboratoryService.deleteById(id);
 
         if(deleted == null){
@@ -60,7 +62,8 @@ public class LaboratoryController {
         return new ResponseEntity<>(new LaboratoryDTO(deleted), HttpStatus.OK);
     }
 
-    public ResponseEntity<LaboratoryDTO> update(Long id, LaboratoryCreateModel newValue) {
+    @PostMapping("/updateById/{id}")
+    public ResponseEntity<LaboratoryDTO> update(@PathVariable Long id, @RequestBody LaboratoryCreateModel newValue) {
         Laboratory updated = laboratoryService.update(id, newValue);
 
         if(updated == null){

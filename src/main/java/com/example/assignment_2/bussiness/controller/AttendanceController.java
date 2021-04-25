@@ -9,8 +9,7 @@ import com.example.assignment_2.bussiness.service.implementation.AttendanceServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +22,7 @@ public class AttendanceController {
     @Autowired
     private AttendanceServiceImplementation attendanceService;
 
+    @GetMapping("/getAll")
     public ResponseEntity<List<AttendanceDTO>> findAll() {
         List<Attendance> attendances = attendanceService.findAll();
 
@@ -33,7 +33,8 @@ public class AttendanceController {
         return new ResponseEntity<>(attendances.stream().map(AttendanceDTO::new).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    public ResponseEntity<AttendanceDTO> findById(Long id) {
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<AttendanceDTO> findById(@PathVariable Long id) {
         Attendance found = attendanceService.findById(id);
         if(found == null){
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -42,7 +43,8 @@ public class AttendanceController {
         return new ResponseEntity<>(new AttendanceDTO(found), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<AttendanceDTO>> findAllByLaboratory_Id(Long laboratory_id) {
+    @GetMapping("/getByLaboratoryId/{laboratory_id}")
+    public ResponseEntity<List<AttendanceDTO>> findAllByLaboratory_Id(@PathVariable Long laboratory_id) {
         List<Attendance> attendances = attendanceService.findAllByLaboratory_Id(laboratory_id);
 
         if(attendances == null){
@@ -52,13 +54,15 @@ public class AttendanceController {
         return new ResponseEntity<>(attendances.stream().map(AttendanceDTO::new).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    public ResponseEntity<AttendanceDTO> create(AttendanceCreateModel createModel) {
+    @PostMapping("/create")
+    public ResponseEntity<AttendanceDTO> create(@RequestBody AttendanceCreateModel createModel) {
         Attendance saved = attendanceService.create(createModel);
 
         return new ResponseEntity<>(new AttendanceDTO(saved), HttpStatus.OK);
     }
 
-    public ResponseEntity<AttendanceDTO> update(Long id, AttendanceCreateModel newValue) {
+    @PostMapping("/updateById/{id}")
+    public ResponseEntity<AttendanceDTO> update(@PathVariable Long id, @RequestBody AttendanceCreateModel newValue) {
         Attendance updated = attendanceService.update(id, newValue);
 
         if(updated == null){
@@ -68,7 +72,8 @@ public class AttendanceController {
         return new ResponseEntity<>(new AttendanceDTO(updated), HttpStatus.OK);
     }
 
-    public ResponseEntity<AttendanceDTO> deleteById(Long id) {
+    @DeleteMapping("/deleteById/{id}")
+    public ResponseEntity<AttendanceDTO> deleteById(@PathVariable Long id) {
         Attendance deleted = attendanceService.deleteById(id);
 
         if(deleted == null){
